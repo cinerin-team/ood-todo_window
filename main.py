@@ -1,16 +1,16 @@
 import tkinter as tk
 
-from config import OUT_OF_DATE_DASHBOARD, TODO_DASHBOARD
-from dashboard import download_page, collect_team_TC_state, parse_table_for_dash, merge_tables
+from config import OUT_OF_DATE_DASHBOARD, TODO_DASHBOARD, UPDATE_INTERVAL
+from dashboard import download_page, collect_team_tc_state, parse_table_for_dash, merge_tables
 
 
 def get_data():
-    # Itt történne az adatok lekérdezése (például adatbázisból vagy API-ból)
+    # Itt történik az adatok lekérdezése (például adatbázisból vagy API-ból)
     ood_dash = download_page(OUT_OF_DATE_DASHBOARD)
-    ood = collect_team_TC_state(parse_table_for_dash(ood_dash))
+    ood = collect_team_tc_state(parse_table_for_dash(ood_dash))
 
     todo_dash = download_page(TODO_DASHBOARD)
-    todo = collect_team_TC_state(parse_table_for_dash(todo_dash))
+    todo = collect_team_tc_state(parse_table_for_dash(todo_dash))
     return merge_tables(ood, todo)
 
 
@@ -48,7 +48,7 @@ def refresh_table(data):
 def update_data():
     new_data = get_data()  # Lekérjük az új adatokat
     refresh_table(new_data)  # Frissítjük a táblázatot
-    root.after(30000, update_data)  # 30 másodperc múlva újraindítjuk ezt a függvényt
+    root.after(UPDATE_INTERVAL, update_data)  # 30 másodperc múlva újraindítjuk ezt a függvényt
 
 if __name__ == '__main__':
     # Ablak és egyéb widgetek létrehozása
@@ -66,7 +66,7 @@ if __name__ == '__main__':
         root.attributes("-topmost", always_on_top.get())
 
 
-    check = tk.Checkbutton(control_frame, text="Mindig az élöl", variable=always_on_top, command=toggle_topmost)
+    check = tk.Checkbutton(control_frame, text="Always on top", variable=always_on_top, command=toggle_topmost)
     check.pack(side=tk.LEFT, padx=5, pady=5)
 
     # Fő konténer a canvas és scrollbarek számára

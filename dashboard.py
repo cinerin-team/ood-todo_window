@@ -43,7 +43,7 @@ def collect_teams_tests(team, parsed_table):
     return result
 
 
-def collect_team_TC_state(string):
+def collect_team_tc_state(string):
     result = []
     for item in string:
         if item['Test case ID'] in TCS.keys():

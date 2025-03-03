@@ -1,5 +1,6 @@
 # these variables should be updated!!!
 USER = "ALL" # username as below or "ALL" if everybody should be seen
+UPDATE_INTERVAL = 30000 # in millisecond
 
 # these variables should not be updated
 TODO_DASHBOARD = "https://dashboards.sero.wh.rnd.internal.ericsson.com/epg_st_passrates/epg_st_passrates_weekly_master_to_do_team.html"
