@@ -48,14 +48,14 @@ def refresh_table(data):
 def update_data():
     new_data = get_data()  # Lekérjük az új adatokat
     refresh_table(new_data)  # Frissítjük a táblázatot
-    root.after(UPDATE_INTERVAL, update_data)  # 30 másodperc múlva újraindítjuk ezt a függvényt
+    root.after(UPDATE_INTERVAL, update_data)  # megadott másodperc múlva újraindítjuk ezt a függvényt
 
 if __name__ == '__main__':
     # Ablak és egyéb widgetek létrehozása
     root = tk.Tk()
     root.title("Adatok Táblázata")
 
-    # Kontrollpanel a "Mindig az élöl" kapcsolóval
+    # Kontrollpanel az "Always on top" kapcsolóval
     control_frame = tk.Frame(root)
     control_frame.pack(fill=tk.X)
 
@@ -69,7 +69,7 @@ if __name__ == '__main__':
     check = tk.Checkbutton(control_frame, text="Always on top", variable=always_on_top, command=toggle_topmost)
     check.pack(side=tk.LEFT, padx=5, pady=5)
 
-    # Fő konténer a canvas és scrollbarek számára
+    # Fő konténer a canvas és scrollbar-ok számára
     main_frame = tk.Frame(root)
     main_frame.pack(fill=tk.BOTH, expand=1)
 
