@@ -35,14 +35,6 @@ def parse_table_for_dash(string):
     return dict_list
 
 
-def collect_teams_tests(team, parsed_table):
-    result = []
-    for item in parsed_table:
-        if item['Responsible Team'] == team:
-            result.append(item)
-    return result
-
-
 def collect_team_tc_state(string):
     result = []
     for item in string:
