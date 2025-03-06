@@ -77,7 +77,7 @@ def toggle_topmost():
     root.attributes("-topmost", always_on_top.get())
 
 
-check = tk.Checkbutton(control_frame, text="Allways on top", variable=always_on_top, command=toggle_topmost)
+check = tk.Checkbutton(control_frame, text="Always on top", variable=always_on_top, command=toggle_topmost)
 check.pack(side=tk.LEFT, padx=5, pady=5)
 
 # Szabadszöveges szövegdoboz, amelynek tartalma a global_text változóból kerül betöltésre
