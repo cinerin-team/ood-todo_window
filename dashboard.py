@@ -61,4 +61,4 @@ def merge_tables(ood, todo, global_text):
         result.append([TCS[tc]["owner"], tc, todo_value, ood_value])
     if global_text != "":
         result = list(filter(lambda x: x[1] == global_text, result))
-    return sorted(result, key=lambda x: x[1])
+    return sorted(result, key=lambda x: x[0])
