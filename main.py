@@ -3,7 +3,7 @@ import tkinter as tk
 from config import OUT_OF_DATE_DASHBOARD, TODO_DASHBOARD, UPDATE_INTERVAL
 from dashboard import download_page, collect_team_tc_state, parse_table_for_dash, merge_tables
 
-global_text = "ALL"
+global_text = ""
 
 
 def get_data():
