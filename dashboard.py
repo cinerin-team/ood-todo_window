@@ -3,7 +3,7 @@ import re
 import requests
 from lxml import etree
 
-from config import TCS, USER
+from config import TCS
 
 
 def download_page(url):
@@ -43,7 +43,7 @@ def collect_team_tc_state(string):
     return result
 
 
-def merge_tables(ood, todo):
+def merge_tables(ood, todo, global_text):
     result = []
     for tc in TCS.keys():
         ood_value = False
@@ -59,6 +59,6 @@ def merge_tables(ood, todo):
                     todo_value = True
                     break
         result.append([tc, TCS[tc]["owner"], todo_value, ood_value])
-    if USER != "ALL":
-        result = list(filter(lambda x: x[1] == USER, result))
+    if global_text != "ALL":
+        result = list(filter(lambda x: x[1] == global_text, result))
     return sorted(result, key=lambda x: x[1])

@@ -1,5 +1,4 @@
 # these variables should be updated!!!
-USER = "ALL" # username as below or "ALL" if everybody should be seen
 UPDATE_INTERVAL = 30000 # in millisecond
 
 # these variables should not be updated
