@@ -21,7 +21,7 @@ def refresh_table(data):
     for widget in table_frame.winfo_children():
         widget.destroy()
 
-    headers = ["TC", "owner", "ToDo", "OutOfDate"]
+    headers = ["Owner", "TC", "ToDo", "OutOfDate"]
 
     # Fejléc létrehozása (a "TC" balra, a többi középre igazítva)
     for j, header in enumerate(headers):
