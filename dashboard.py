@@ -15,9 +15,11 @@ def download_page(url):
 def process_downloaded_page_from_dashboard(string):
     string = string.replace("\n", "")
     m = re.search('(<table .*?>.+?</table>)', string)
-    found = ' '.join(m.group(1).split())
-    found = found.replace("<thead>", "").replace("</thead>", "").replace("<tbody>", "").replace("</tbody>", "")
-
+    try:
+        found = ' '.join(m.group(1).split())
+        found = found.replace("<thead>", "").replace("</thead>", "").replace("<tbody>", "").replace("</tbody>", "")
+    except AttributeError:
+        found = '<html><body></body></html>'
     return found
 
 
@@ -25,13 +27,16 @@ def parse_table_for_dash(string):
     dict_list = []
     dict_list.clear()
     table = etree.HTML(process_downloaded_page_from_dashboard(string)).find("body/table")
-    rows = iter(table)
-    headers = [col.text for col in next(rows)]
-    for row in rows:
-        values = [col.text for col in row]
-        one_line = dict(zip(headers, values))
-        clean_line = {k: v.strip() for k, v in one_line.items()}
-        dict_list.append(clean_line)
+    try:
+        rows = iter(table)
+        headers = [col.text for col in next(rows)]
+        for row in rows:
+            values = [col.text for col in row]
+            one_line = dict(zip(headers, values))
+            clean_line = {k: v.strip() for k, v in one_line.items()}
+            dict_list.append(clean_line)
+    except TypeError:
+        pass
     return dict_list
 
 
