@@ -3,8 +3,10 @@ import re
 import requests
 from lxml import etree
 
-from config import TCS
+import importlib
+import config
 
+tc_const = importlib.import_module(config.CONSTANTS_MODULE)
 
 def download_page(url):
     response = requests.get(url)
@@ -40,14 +42,14 @@ def parse_table_for_dash(string):
 def collect_team_tc_state(string):
     result = []
     for item in string:
-        if item['Test case ID'] in TCS.keys():
-            result.append([item['Test case ID'], item['Verdict'], TCS[item['Test case ID']]["owner"]])
+        if item['Test case ID'] in tc_const.TCS.keys():
+            result.append([item['Test case ID'], item['Verdict'], tc_const.TCS[item['Test case ID']]["owner"]])
     return result
 
 
 def merge_tables(ood, todo, global_text):
     result = []
-    for tc in TCS.keys():
+    for tc in tc_const.TCS.keys():
         ood_value = False
         if ood:
             for item in ood:
@@ -60,7 +62,7 @@ def merge_tables(ood, todo, global_text):
                 if item[0] == tc:
                     todo_value = True
                     break
-        result.append([TCS[tc]["owner"], tc, todo_value, ood_value])
+        result.append([tc_const.TCS[tc]["owner"], tc, todo_value, ood_value])
     if global_text != "":
         result = list(filter(lambda x: x[0] == global_text, result))
     return sorted(result, key=lambda x: x[0])
