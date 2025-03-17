@@ -1,5 +1,5 @@
 # ood-todo_window
-
+if you want to create your own user and tc list copy the actual cinerin_tc.py file and create the same structure, and modify the config.py (CONSTANTS_MODULE) to load this new file
 
 replace in the ood_todo.bat this:
 start "" "C:\Users\erkmiap\AppData\Local\Microsoft\WindowsApps\pythonw.exe" "C:\Users\erkmiap\PycharmProjects\ood-todo_window\main.py"
