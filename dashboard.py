@@ -15,11 +15,8 @@ def download_page(url):
 def process_downloaded_page_from_dashboard(string):
     string = string.replace("\n", "")
     m = re.search('(<table .*?>.+?</table>)', string)
-    try:
-        found = ' '.join(m.group(1).split())
-        found = found.replace("<thead>", "").replace("</thead>", "").replace("<tbody>", "").replace("</tbody>", "")
-    except AttributeError:
-        found = '<html><body></body></html>'
+    found = ' '.join(m.group(1).split())
+    found = found.replace("<thead>", "").replace("</thead>", "").replace("<tbody>", "").replace("</tbody>", "")
     return found
 
 

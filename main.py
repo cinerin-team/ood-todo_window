@@ -48,8 +48,16 @@ def refresh_table(data):
 
 
 def update_data():
-    new_data = get_data()  # Lekérjük az aktuális adatokat
-    refresh_table(new_data)  # Frissítjük a táblázatot
+    try:
+        new_data = get_data()  # Lekérjük az aktuális adatokat
+    except Exception as e:
+        # Ha kivétel történik, állítsuk a jelzőt pirosra és írjuk ki a hibaüzenetet a konzolra
+        status_indicator.config(bg="red")
+        print("Hiba történt az adatok lekérésekor:", e)
+    else:
+        # Sikeres lekérés esetén állítsuk a jelzőt zöldre
+        status_indicator.config(bg="green")
+        refresh_table(new_data)  # Frissítjük a táblázatot
     root.after(UPDATE_INTERVAL, update_data)  # 30 másodperc múlva újraindítja ezt a függvényt
 
 
@@ -88,6 +96,14 @@ entry.pack(side=tk.LEFT, padx=5, pady=5)
 # "frissítés" gomb, ami frissíti a global_text értékét és újrabetölti a táblázatot
 button = tk.Button(control_frame, text="Update", command=manual_refresh)
 button.pack(side=tk.LEFT, padx=5, pady=5)
+
+# Status frame a státuszjelzőnek, ez a keresőmező alá, de a táblázat fölé kerül
+status_frame = tk.Frame(root)
+status_frame.pack(fill=tk.X)
+status_text_label = tk.Label(status_frame, text="lekérdezés eredménye:")
+status_text_label.pack(side=tk.LEFT, padx=5, pady=5)
+status_indicator = tk.Label(status_frame, text=" ", bg="gray", width=2, height=1, relief="sunken")
+status_indicator.pack(side=tk.LEFT, padx=5, pady=5)
 
 # Fő konténer a görgethető tartalomhoz
 main_frame = tk.Frame(root)
