@@ -58,7 +58,7 @@ def update_data():
         # Sikeres lekérés esetén állítsuk a jelzőt zöldre
         status_indicator.config(bg="green")
         refresh_table(new_data)  # Frissítjük a táblázatot
-    root.after(UPDATE_INTERVAL, update_data)  # 30 másodperc múlva újraindítja ezt a függvényt
+    root.after(UPDATE_INTERVAL, update_data)  # megadott másodperc múlva újraindítja ezt a függvényt
 
 
 def manual_refresh():
