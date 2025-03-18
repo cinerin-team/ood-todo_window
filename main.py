@@ -8,11 +8,25 @@ global_text = ""
 
 def get_data():
     # Itt történik az adatok lekérdezése (például adatbázisból vagy API-ból)
-    ood_dash = download_page(OUT_OF_DATE_DASHBOARD)
-    ood = collect_team_tc_state(parse_table_for_dash(ood_dash))
+    ood_dash = download_page(OUT_OF_DATE_DASHBOARD)[0]
+    result = download_page(OUT_OF_DATE_DASHBOARD)[1]
+    parsed_ood = parse_table_for_dash(ood_dash)
+    if parsed_ood[0][0] == True and result:
+        ood = collect_team_tc_state(parsed_ood[0][1])
+        status_indicator_ood.config(bg="green")
+    else:
+        ood = []
+        status_indicator_ood.config(bg="red")
 
-    todo_dash = download_page(TODO_DASHBOARD)
-    todo = collect_team_tc_state(parse_table_for_dash(todo_dash))
+    todo_dash = download_page(TODO_DASHBOARD)[0]
+    result = download_page(TODO_DASHBOARD)[1]
+    parsed_todo = parse_table_for_dash(todo_dash)
+    if parsed_todo[0][0] == True and result:
+        todo = collect_team_tc_state(parsed_todo[0][1])
+        status_indicator_todo.config(bg="green")
+    else:
+        todo = []
+        status_indicator_todo.config(bg="red")
     return merge_tables(ood, todo, global_text)
 
 
@@ -48,16 +62,8 @@ def refresh_table(data):
 
 
 def update_data():
-    try:
-        new_data = get_data()  # Lekérjük az aktuális adatokat
-    except Exception as e:
-        # Ha kivétel történik, állítsuk a jelzőt pirosra és írjuk ki a hibaüzenetet a konzolra
-        status_indicator.config(bg="red")
-        print("Hiba történt az adatok lekérésekor:", e)
-    else:
-        # Sikeres lekérés esetén állítsuk a jelzőt zöldre
-        status_indicator.config(bg="green")
-        refresh_table(new_data)  # Frissítjük a táblázatot
+    new_data = get_data()  # Lekérjük az aktuális adatokat
+    refresh_table(new_data)  # Frissítjük a táblázatot
     root.after(UPDATE_INTERVAL, update_data)  # megadott másodperc múlva újraindítja ezt a függvényt
 
 
@@ -97,13 +103,21 @@ entry.pack(side=tk.LEFT, padx=5, pady=5)
 button = tk.Button(control_frame, text="Update", command=manual_refresh)
 button.pack(side=tk.LEFT, padx=5, pady=5)
 
-# Status frame a státuszjelzőnek, ez a keresőmező alá, de a táblázat fölé kerül
+# Status frame a státuszjelzőnek, ez a keresőmező alá, de a táblázat fölé kerül to_do
 status_frame = tk.Frame(root)
 status_frame.pack(fill=tk.X)
-status_text_label = tk.Label(status_frame, text="lekérdezés eredménye:")
+status_text_label = tk.Label(status_frame, text="todo lekérdezés eredménye:")
 status_text_label.pack(side=tk.LEFT, padx=5, pady=5)
-status_indicator = tk.Label(status_frame, text=" ", bg="gray", width=2, height=1, relief="sunken")
-status_indicator.pack(side=tk.LEFT, padx=5, pady=5)
+status_indicator_todo = tk.Label(status_frame, text=" ", bg="gray", width=2, height=1, relief="sunken")
+status_indicator_todo.pack(side=tk.LEFT, padx=5, pady=5)
+
+# Status frame a státuszjelzőnek, ez a keresőmező alá, de a táblázat fölé kerül ood
+status_frame = tk.Frame(root)
+status_frame.pack(fill=tk.X)
+status_text_label = tk.Label(status_frame, text="ood lekérdezés eredménye:")
+status_text_label.pack(side=tk.LEFT, padx=5, pady=5)
+status_indicator_ood = tk.Label(status_frame, text=" ", bg="gray", width=2, height=1, relief="sunken")
+status_indicator_ood.pack(side=tk.LEFT, padx=5, pady=5)
 
 # Fő konténer a görgethető tartalomhoz
 main_frame = tk.Frame(root)
