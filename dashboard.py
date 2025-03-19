@@ -30,8 +30,8 @@ def parse_table_for_dash(string):
     response = []
     dict_list = []
     dict_list.clear()
-    table = etree.HTML(process_downloaded_page_from_dashboard(string)).find("body/table")
     try:
+        table = etree.HTML(process_downloaded_page_from_dashboard(string)).find("body/table")
         rows = iter(table)
         headers = [col.text for col in next(rows)]
         for row in rows:
@@ -40,7 +40,7 @@ def parse_table_for_dash(string):
             clean_line = {k: v.strip() for k, v in one_line.items()}
             dict_list.append(clean_line)
         response.append([True, dict_list])
-    except TypeError:
+    except:
         response.append([False, []])
     return response
 
