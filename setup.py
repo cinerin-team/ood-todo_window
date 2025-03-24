@@ -4,8 +4,8 @@ APP = ['main.py']  # Cseréld le a scripted nevére
 DATA_FILES = []
 OPTIONS = {
     'argv_emulation': True,
-    'packages': ['tkinter', 'requests'],  # Add hozzá a szükséges modulokat
-    # Egyéb opciók, például a 'includes' lista, ha speciális modulokat kell belefoglalni
+    'packages': ['tkinter', 'requests', 'lxml', 'importlib', 'config'],  # Add hozzá a szükséges modulokat
+    'includes': ['dashboard', 'cinerin_tc', 'config']# Egyéb opciók, például a 'includes' lista, ha speciális modulokat kell belefoglalni
 }
 
 setup(
