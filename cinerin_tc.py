@@ -13,7 +13,7 @@ TCS = {
     "TC37512.6.6.17.12": {"scope": "Dynamic", "owner": "ECSIGER", "Label1": "REGRESSION", "Label2": "CAPACITY", "Label3": "ST_DYNAMIC", "Label4": "ST_MONTHLY", "Original Estimate": 14400, "Story Points": 0.5},
     "TC2020.5.6.9.5": {"scope": "2Extended", "owner": "ETHNYZ", "Label1": "REGRESSION", "Label2": "ROBUSTNESS", "Label3": "ST_2EXTENDED", "Label4": "ST_BI-WEEKLY", "Original Estimate": 14400, "Story Points": 0.5},
     "TC2020.5.6.14.1": {"scope": "Dynamic", "owner": "ECSIGER", "Label1": "REGRESSION", "Label2": "ROBUSTNESS", "Label3": "ST_DYNAMIC", "Label4": "ST_MONTHLY", "Original Estimate": 14400, "Story Points": 0.5},
-    "TC1123.1.6.1.1": {"scope": "Dynamic", "owner": "ERKMIAP", "Label1": "REGRESSION", "Label2": "ROBUSTNESS", "Label3": "ST_DYNAMIC", "Label4": "ST_MONTHLY", "Original Estimate": 14400, "Story Points": 0.5},
+    "TC1123.1.6.1.1": {"scope": "2Dynamic", "owner": "ERKMIAP", "Label1": "REGRESSION", "Label2": "ROBUSTNESS", "Label3": "ST_2DYNAMIC", "Label4": "ST_BI-MONTHLY", "Original Estimate": 14400, "Story Points": 0.5},
     "TC22687.1.1.2.1": {"scope": "Dynamic", "owner": "ETHNYZ", "Label1": "REGRESSION", "Label2": "ROBUSTNESS", "Label3": "ST_DYNAMIC", "Label4": "ST_MONTHLY", "Original Estimate": 14400, "Story Points": 0.5},
     "TC22711.2.2.2.1": {"scope": "Extended", "owner": "ETHNYZ", "Label1": "REGRESSION", "Label2": "ROBUSTNESS", "Label3": "ST_EXTENDED", "Label4": "ST_WEEKLY", "Original Estimate": 14400, "Story Points": 0.5},
     "TC37553.1.6.8": {"scope": "Dynamic", "owner": "ERKMIAP", "Label1": "REGRESSION", "Label2": "STABILITY", "Label3": "ST_DYNAMIC", "Label4": "ST_MONTHLY", "Original Estimate": 14400, "Story Points": 0.5},
