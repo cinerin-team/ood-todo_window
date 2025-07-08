@@ -1,10 +1,13 @@
 import tkinter as tk
-
+import importlib
+import config
+import dashboard
 from config import OUT_OF_DATE_DASHBOARD, TODO_DASHBOARD, UPDATE_INTERVAL
 from dashboard import download_page, collect_team_tc_state, parse_table_for_dash, merge_tables
 
 global_text = ""
-
+# Collect unique owners from constants module
+owners = sorted({v["owner"] for v in dashboard.tc_const.TCS.values()})
 
 def get_data():
     # Itt történik az adatok lekérdezése (például adatbázisból vagy API-ból)
@@ -27,8 +30,8 @@ def get_data():
     else:
         todo = []
         status_indicator_todo.config(bg="red")
-    return merge_tables(ood, todo, global_text)
 
+    return merge_tables(ood, todo, global_text)
 
 def refresh_table(data):
     # Töröljük a korábbi táblázat tartalmát
@@ -36,15 +39,14 @@ def refresh_table(data):
         widget.destroy()
 
     headers = ["Owner", "TC", "ToDo", "OutOfDate"]
-
-    # Fejléc létrehozása (a "TC" balra, a többi középre igazítva)
+    # Fejléc létrehozása
     for j, header in enumerate(headers):
         anchor = "w" if header == "TC" else "center"
         label = tk.Label(table_frame, text=header, borderwidth=1, relief="solid",
                          padx=5, pady=5, anchor=anchor)
         label.grid(row=0, column=j, sticky="nsew")
 
-    # Adatsorok létrehozása (boolean értékeknél az "X" jelenik meg, ha True)
+    # Adatsorok létrehozása
     for i, row in enumerate(data, start=1):
         processed_row = row[:2] + [('X' if row[2] else ''), ('X' if row[3] else '')]
         for j, value in enumerate(processed_row):
@@ -60,20 +62,22 @@ def refresh_table(data):
     table_frame.update_idletasks()
     canvas.config(scrollregion=canvas.bbox("all"))
 
-
 def update_data():
-    new_data = get_data()  # Lekérjük az aktuális adatokat
-    refresh_table(new_data)  # Frissítjük a táblázatot
-    root.after(UPDATE_INTERVAL, update_data)  # megadott másodperc múlva újraindítja ezt a függvényt
-
+    new_data = get_data()
+    refresh_table(new_data)
+    root.after(UPDATE_INTERVAL, update_data)
 
 def manual_refresh():
     global global_text
-    # Frissítjük a global_text értékét a szövegdoboz tartalmával
     global_text = text_var.get()
-    # Újrabetöltjük a táblázatot az aktuális adatokkal
     refresh_table(get_data())
 
+# Új: filter function to apply owner filter
+def filter_owner(owner):
+    global global_text
+    global_text = owner
+    text_var.set(owner)
+    refresh_table(get_data())
 
 # Ablak létrehozása
 root = tk.Tk()
@@ -85,63 +89,75 @@ control_frame.pack(fill=tk.X)
 
 # "Mindig az élöl" kapcsoló
 always_on_top = tk.BooleanVar(value=False)
-
-
 def toggle_topmost():
     root.attributes("-topmost", always_on_top.get())
-
-
 check = tk.Checkbutton(control_frame, text="Always on top", variable=always_on_top, command=toggle_topmost)
 check.pack(side=tk.LEFT, padx=5, pady=5)
 
-# Szabadszöveges szövegdoboz, amelynek tartalma a global_text változóból kerül betöltésre
+# Szabadszöveges szövegdoboz
 text_var = tk.StringVar(value=global_text)
 entry = tk.Entry(control_frame, textvariable=text_var)
 entry.pack(side=tk.LEFT, padx=5, pady=5)
 
-# "frissítés" gomb, ami frissíti a global_text értékét és újrabetölti a táblázatot
+# "Update" gomb
 button = tk.Button(control_frame, text="Update", command=manual_refresh)
 button.pack(side=tk.LEFT, padx=5, pady=5)
 
-# Status frame a státuszjelzőnek, ez a keresőmező alá, de a táblázat fölé kerül to_do
-status_frame = tk.Frame(root)
-status_frame.pack(fill=tk.X)
-status_text_label = tk.Label(status_frame, text="todo lekérdezés eredménye:")
+# Új: owner filter gombok
+filter_frame = tk.Frame(root)
+filter_frame.pack(fill=tk.X, padx=5, pady=(0,10))
+
+# "All" gomb minden tulajdonos megjelenítéséhez
+all_button = tk.Button(filter_frame, text="All", command=lambda: filter_owner(""))
+all_button.pack(side=tk.LEFT, padx=2)
+
+# Dinamikus gombok az egyes tulajdonosokhoz
+for owner in owners:
+    btn = tk.Button(filter_frame, text=owner, command=lambda o=owner: filter_owner(o))
+    btn.pack(side=tk.LEFT, padx=2)
+
+# Status frame a státuszjelzőknek
+status_frame_todo = tk.Frame(root)
+status_frame_todo.pack(fill=tk.X)
+status_text_label = tk.Label(status_frame_todo, text="todo lekérdezés eredménye:")
 status_text_label.pack(side=tk.LEFT, padx=5, pady=5)
-status_indicator_todo = tk.Label(status_frame, text=" ", bg="gray", width=2, height=1, relief="sunken")
+status_indicator_todo = tk.Label(status_frame_todo, text=" ", bg="gray", width=2, height=1, relief="sunken")
 status_indicator_todo.pack(side=tk.LEFT, padx=5, pady=5)
 
-# Status frame a státuszjelzőnek, ez a keresőmező alá, de a táblázat fölé kerül ood
-status_frame = tk.Frame(root)
-status_frame.pack(fill=tk.X)
-status_text_label = tk.Label(status_frame, text="ood lekérdezés eredménye:")
-status_text_label.pack(side=tk.LEFT, padx=5, pady=5)
-status_indicator_ood = tk.Label(status_frame, text=" ", bg="gray", width=2, height=1, relief="sunken")
+status_frame_ood = tk.Frame(root)
+status_frame_ood.pack(fill=tk.X)
+status_text_label2 = tk.Label(status_frame_ood, text="ood lekérdezés eredménye:")
+status_text_label2.pack(side=tk.LEFT, padx=5, pady=5)
+status_indicator_ood = tk.Label(status_frame_ood, text=" ", bg="gray", width=2, height=1, relief="sunken")
 status_indicator_ood.pack(side=tk.LEFT, padx=5, pady=5)
 
 # Fő konténer a görgethető tartalomhoz
 main_frame = tk.Frame(root)
 main_frame.pack(fill=tk.BOTH, expand=1)
 
-# Canvas létrehozása, melybe a táblázatot tesszük
 canvas = tk.Canvas(main_frame)
 canvas.grid(row=0, column=0, sticky="nsew")
 
-# Függőleges és vízszintes görgetősávok
+# Scrollbarok
 v_scrollbar = tk.Scrollbar(main_frame, orient="vertical", command=canvas.yview)
 v_scrollbar.grid(row=0, column=1, sticky="ns")
 h_scrollbar = tk.Scrollbar(main_frame, orient="horizontal", command=canvas.xview)
 h_scrollbar.grid(row=1, column=0, sticky="ew")
 
 canvas.configure(yscrollcommand=v_scrollbar.set, xscrollcommand=h_scrollbar.set)
+def _on_mousewheel(event):
+    canvas.yview_scroll(-1 * int(event.delta/120), "units")
+
+# Amikor az egér a canvas fölé ér, bind-oljuk a görgőt...
+canvas.bind("<Enter>", lambda e: canvas.bind_all("<MouseWheel>", _on_mousewheel))
+# …és amikor elhagyja, le is oldjuk
+canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
 main_frame.grid_rowconfigure(0, weight=1)
 main_frame.grid_columnconfigure(0, weight=1)
 
-# Belső frame, ahol a táblázat megjelenik a canvas-on belül
+# Belső frame a táblázathoz
 table_frame = tk.Frame(canvas)
 canvas.create_window((0, 0), window=table_frame, anchor="nw")
 
-# Az adatfrissítés ciklikusan indul el
-update_data()
-
+# Indítás\ nupdate_data()
 root.mainloop()
