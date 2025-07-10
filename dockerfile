@@ -14,7 +14,7 @@ WORKDIR /app
 # RUN pip install --no-cache-dir -r requirements.txt
 
 # Ha nincs requirements, közvetlenül installáld, amit kell:
-# RUN pip install requests
+RUN pip install requests
 
 # Másoljuk be az összes forrást
 COPY . .
