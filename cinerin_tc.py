@@ -5,8 +5,6 @@ TCS = {
     "TC37512.4.6.1.53.1": {"scope": "Dynamic", "owner": "ETOTIST", "Label1": "REGRESSION", "Label2": "CAPACITY", "Label3": "ST_DYNAMIC", "Label4": "ST_MONTHLY", "Original Estimate": 14400, "Story Points": 0.5},
     "TC37485.1.6.1": {"scope": "2Extended", "owner": "ETOTIST", "Label1": "REGRESSION", "Label2": "MAINTAINABILITY", "Label3": "ST_2EXTENDED", "Label4": "ST_BI-WEEKLY", "Original Estimate": 14400, "Story Points": 0.5},
     "TC37512.4.6.10.1": {"scope": "2Extended", "owner": "ECSIGER", "Label1": "REGRESSION", "Label2": "CAPACITY", "Label3": "ST_2EXTENDED", "Label4": "ST_BI-WEEKLY", "Original Estimate": 14400, "Story Points": 0.5},
-    "TC37515.8.1.5.1": {"scope": "Basic", "owner": "ECSIGER", "Label1": "REGRESSION", "Label2": "CAPACITY", "Label3": "ST_BASIC", "Label4": "ST_DAILY", "Original Estimate": 86400, "Story Points": 3},
-    "TC37512.4.4.18.23": {"scope": "Basic", "owner": "ECSIGER", "Label1": "REGRESSION", "Label2": "CAPACITY", "Label3": "ST_BASIC", "Label4": "ST_DAILY", "Original Estimate": 86400, "Story Points": 3},
     "TC37512.4.6.10.11": {"scope": "Dynamic", "owner": "ECSIGER", "Label1": "REGRESSION", "Label2": "CAPACITY", "Label3": "ST_DYNAMIC", "Label4": "ST_MONTHLY", "Original Estimate": 14400, "Story Points": 0.5},
     "TC37512.4.6.17.1": {"scope": "Dynamic", "owner": "ECSIGER", "Label1": "REGRESSION", "Label2": "CAPACITY", "Label3": "ST_DYNAMIC", "Label4": "ST_MONTHLY", "Original Estimate": 14400, "Story Points": 0.5},
     "TC37512.6.6.17.5": {"scope": "Dynamic", "owner": "ECSIGER", "Label1": "REGRESSION", "Label2": "CAPACITY", "Label3": "ST_DYNAMIC", "Label4": "ST_MONTHLY", "Original Estimate": 14400, "Story Points": 0.5},
